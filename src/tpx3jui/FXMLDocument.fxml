@@ -7,15 +7,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="tpx3jui.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="500.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="tpx3jui.FXMLDocumentController">
   <children>
     <BorderPane layoutY="0.0" prefHeight="500.0" prefWidth="800.0" snapToPixel="true" AnchorPane.rightAnchor="0.0">
       <bottom>
         <GridPane alignment="CENTER_LEFT" gridLinesVisible="false">
           <children>
-            <Label fx:id="statusLabel" text="Link status" textAlignment="LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Label text="Acq mode" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label text="Stats" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label fx:id="statusLabel" text="Link status:" textAlignment="LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="Acq mode:" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Stats:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
           </children>
           <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,7 +43,7 @@
                       <children>
                         <GridPane alignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.margin="$x1" GridPane.rowIndex="0" GridPane.valignment="CENTER">
                           <children>
-                            <Slider orientation="VERTICAL" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                            <Slider fx:id="sliderDac1" orientation="VERTICAL" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
                             <Slider orientation="VERTICAL" GridPane.columnIndex="17" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
                             <Slider orientation="VERTICAL" GridPane.columnIndex="16" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
                             <Slider orientation="VERTICAL" GridPane.columnIndex="15" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
@@ -127,12 +127,16 @@
           </tabs>
         </TabPane>
       </center>
-      <padding>
-        <Insets fx:id="x1" />
-      </padding>
       <top>
         <MenuBar>
           <menus>
+            <Menu mnemonicParsing="false" text="Connection">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleConnectAction" text="Connect" />
+                <MenuItem mnemonicParsing="false" onAction="#handleDisconnectAction" text="Disconnect" />
+                <MenuItem mnemonicParsing="false" onAction="#handleReconnectAction" text="Reconnect" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="File">
               <items>
                 <MenuItem mnemonicParsing="false" text="Close" />

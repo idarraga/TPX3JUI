@@ -13,21 +13,21 @@
 SpidrController * g_spidrController;
 SpidrDaq        * g_daq;
 
-JNIEXPORT void JNICALL Java_my_dacs_SpidrDaqJ_resetDevice
+JNIEXPORT void JNICALL Java_tpx3jui_SpidrDaqJ_resetDevice
 (JNIEnv *, jobject, jint dev_nr) {
 
 	g_spidrController->resetDevice((int) dev_nr);
 
 }
 
-JNIEXPORT void JNICALL Java_my_dacs_SpidrDaqJ_resetDevices
+JNIEXPORT void JNICALL Java_tpx3jui_SpidrDaqJ_resetDevices
 (JNIEnv *, jobject) {
 
 	g_spidrController->resetDevices();
 
 }
 
-JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDeviceId
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDeviceId
 (JNIEnv *, jobject, jint dev_nr) {
 
 	int devId;
@@ -36,7 +36,7 @@ JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDeviceId
 	return (jint)(devId);
 }
 
-JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDac
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDac
 (JNIEnv *, jobject, jint dev_nr, jint dac_code) {
 
 	int dac_val;
@@ -45,7 +45,7 @@ JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDac
 	return (jint) dac_val;
 }
 
-JNIEXPORT void JNICALL Java_my_dacs_SpidrDaqJ_setDac
+JNIEXPORT void JNICALL Java_tpx3jui_SpidrDaqJ_setDac
 (JNIEnv *, jobject, jint dev_nr, jint dac_code, jint dac_val) {
 
 	g_spidrController->setDac((int)dev_nr, (int)dac_code, (int)dac_val);
@@ -53,7 +53,7 @@ JNIEXPORT void JNICALL Java_my_dacs_SpidrDaqJ_setDac
 }
 
 
-JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_ChipConnect
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_ChipConnect
 (JNIEnv *, jobject) {
 
 	jboolean conn = false;
@@ -71,7 +71,7 @@ JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_ChipConnect
 	return conn;
 }
 
-JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_ChipDisconnect
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_ChipDisconnect
 (JNIEnv *, jobject){
 
 	if ( g_spidrController ) {
@@ -82,7 +82,7 @@ JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_ChipDisconnect
 	return true;
 }
 
-JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDeviceCount
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDeviceCount
 (JNIEnv *, jobject) {
 
 	int devCount;
@@ -94,17 +94,17 @@ JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDeviceCount
 }
 
 
-JNIEXPORT jint JNICALL Java_my_dacs_SpidrDaqJ_getDacCount
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDacCount
   (JNIEnv *, jobject) {
 	return (jint) TPX3_DAC_COUNT_TO_SET;
 }
 
 /*
- * Class:     my_dacs_SpidrDaqJ
+ * Class:     tpx3jui_SpidrDaqJ
  * Method:    sequentialReadout
  * Signature: (I)Z
  */
-JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_sequentialReadout
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_sequentialReadout
   (JNIEnv *, jobject, jint tokens){
 
 	bool ret = g_spidrController->sequentialReadout( (int) tokens );
@@ -113,11 +113,11 @@ JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_sequentialReadout
 }
 
 /*
- * Class:     my_dacs_SpidrDaqJ
+ * Class:     tpx3jui_SpidrDaqJ
  * Method:    datadrivenReadout
  * Signature: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_datadrivenReadout
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_datadrivenReadout
   (JNIEnv *, jobject){
 
 	bool ret = g_spidrController->datadrivenReadout();
@@ -127,11 +127,11 @@ JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_datadrivenReadout
 
 
 /*
- * Class:     my_dacs_SpidrDaqJ
+ * Class:     tpx3jui_SpidrDaqJ
  * Method:    pauseReadout
  * Signature: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_my_dacs_SpidrDaqJ_pauseReadout
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_pauseReadout
   (JNIEnv *, jobject) {
 
 	bool ret = g_spidrController->pauseReadout();

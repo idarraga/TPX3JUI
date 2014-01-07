@@ -21,10 +21,12 @@ public class SpidrDaqJ {
         System.out.print( System.getProperty("java.library.path") + "\n");
         System.loadLibrary("SpidrTpx3Lib");
         System.loadLibrary("SpidrDaqJ");
+
     }
     
     SpidrDaqJ () {
-    
+        
+
     }
     
     // Native but introduced by hand
