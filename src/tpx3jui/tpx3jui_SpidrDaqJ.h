@@ -74,6 +74,14 @@ JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDeviceId
 
 /*
  * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setSenseDac
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setSenseDac
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
  * Method:    getDac
  * Signature: (II)I
  */
@@ -87,6 +95,22 @@ JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDac
  */
 JNIEXPORT void JNICALL Java_tpx3jui_SpidrDaqJ_setDac
   (JNIEnv *, jobject, jint, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    dacName
+ * Signature: (I)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_tpx3jui_SpidrDaqJ_dacName
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    dacMax
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_dacMax
+  (JNIEnv *, jobject, jint);
 
 /*
  * Class:     tpx3jui_SpidrDaqJ
@@ -111,6 +135,62 @@ JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_datadrivenReadout
  */
 JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_pauseReadout
   (JNIEnv *, jobject);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getAdc
+ * Signature: (III)Z
+ */
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getAdc
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getRemoteTemp
+ * Signature: (I)Z
+ */
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getRemoteTemp
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getLocalTemp
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getLocalTemp
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getAvdd
+ * Signature: (III)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getAvdd
+  (JNIEnv *, jobject, jint, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getDvdd
+ * Signature: (III)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getDvdd
+  (JNIEnv *, jobject, jint, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getBiasVoltage
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getBiasVoltage
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getVdda
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getVdda
+  (JNIEnv *, jobject, jint);
 
 #ifdef __cplusplus
 }

@@ -8,6 +8,12 @@
 #include "SpidrController.h"
 #include "SpidrDaq.h"
 #include "tpx3defs.h"
+#include "dacsdescr.h"
+
+#include <string>
+
+using namespace std;
+
 
 // The globals
 SpidrController * g_spidrController;
@@ -34,6 +40,14 @@ JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDeviceId
 	g_spidrController->getDeviceId((int)dev_nr, &devId);
 
 	return (jint)(devId);
+}
+
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setSenseDac
+  (JNIEnv *, jobject, jint dev_nr, jint dac_code) {
+
+	bool ret = g_spidrController->setSenseDac( dev_nr, dac_code );
+
+	return (jboolean) ret;
 }
 
 JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getDac
@@ -139,4 +153,109 @@ JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_pauseReadout
 	return (jboolean) ret;
 }
 
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    dacName
+ * Signature: (I)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_tpx3jui_SpidrDaqJ_dacName
+  (JNIEnv * env, jobject, jint dac_code) {
 
+	string name = g_spidrController->dacName( dac_code );
+
+	return env->NewStringUTF( name.c_str() );
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    dacMax
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_dacMax
+  (JNIEnv *, jobject, jint dac_code){
+
+	int max = g_spidrController->dacMax( dac_code );
+
+	return (jint) max;
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getAdc
+ * Signature: (III)Z
+ */
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getAdc
+  (JNIEnv *, jobject, jint dev_nr, jint nr_of_samples) {
+
+	int adc_val;
+	g_spidrController->getAdc( (int)dev_nr, &adc_val, (int)nr_of_samples );
+
+	return (jint)(adc_val);
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getRemoteTemp
+ * Signature: (I)Z
+ */
+JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getRemoteTemp
+  (JNIEnv *, jobject){
+
+	int val;
+	g_spidrController->getRemoteTemp( &val );
+
+	return val;
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getLocalTemp
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getLocalTemp
+  (JNIEnv *, jobject, jint) {
+	return true;
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getAvdd
+ * Signature: (III)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getAvdd
+  (JNIEnv *, jobject, jint, jint, jint) {
+
+	return true;
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getDvdd
+ * Signature: (III)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getDvdd
+  (JNIEnv *, jobject, jint, jint, jint) {
+
+	return true;
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getBiasVoltage
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getBiasVoltage
+  (JNIEnv *, jobject, jint) {
+	return true;
+}
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getVdda
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getVdda
+  (JNIEnv *, jobject, jint) {
+
+	return true;
+}

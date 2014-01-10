@@ -41,21 +41,31 @@ public class SpidrDaqJ {
    
     
     // Native and exact as defined in the TPX3 lib
-    
     public native void     resetDevice      ( int  dev_nr );
     public native void     resetDevices     ( );
     public native int      getDeviceId      ( int  dev_nr );
     //public native int *    getDeviceIds    ( );
-    //bool        setSenseDac      ( int  dev_nr, int  dac_code );
+    public native boolean  setSenseDac      ( int  dev_nr, int  dac_code );
     //bool        setExtDac        ( int  dev_nr, int  dac_code, int  dac_val );
     public native int      getDac           ( int  dev_nr, int  dac_code );
     public native void     setDac           ( int  dev_nr, int  dac_code, int  dac_val );
-     
+    public native String   dacName          ( int  dac_code );
+    public native int      dacMax           ( int  dac_code );
+  
     // Data-acquisition
     public native boolean sequentialReadout ( int tokens );
     public native boolean datadrivenReadout ();
     public native boolean pauseReadout      ();
   
+    // Monitoring
+    public native int     getAdc                  ( int dev_nr, int  nr_of_samples ); // ref adc_val
+    public native int     getRemoteTemp           ( ); // ref mdegrees
+    public native boolean getLocalTemp            ( int mdegrees ); // ref mdegrees
+    public native boolean getAvdd                 ( int mvolts, int mamps, int mwatts ); // ref all
+    public native boolean getDvdd                 ( int mvolts, int mamps, int mwatts ); // ref all
+    public native boolean getBiasVoltage          ( int volts ); // ref all
+    public native boolean getVdda                 ( int mvolts ); // ref all
+    
     // Vars
     private TPX3DaqData _daqData;
     
