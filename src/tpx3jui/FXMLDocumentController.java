@@ -17,7 +17,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -53,10 +56,13 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private LineChart dacsLineChart;
-    
+
+    // Constants
     private final int __N_DACS = 18;
     private final int __DEVICEID = 0;
-
+    // Ref = 1.5V. DAC Granularity is (12bits := 8191 steps) 0.000183127823220608V
+    private final double __V_PER_STEP = 0.000183127823220608;
+    
     // List of sliders
     private List<Slider> sliderDacList = new ArrayList<Slider>();
     @FXML
@@ -172,27 +178,45 @@ public class FXMLDocumentController implements Initializable {
     private Label labelDac17;
     @FXML
     private Label labelDac18;
-    
+
     private List<Label> labelDacSenseList = new ArrayList<Label>();
-    @FXML private Label labelDacSense1;
-    @FXML private Label labelDacSense2;
-    @FXML private Label labelDacSense3;
-    @FXML private Label labelDacSense4;
-    @FXML private Label labelDacSense5;
-    @FXML private Label labelDacSense6;
-    @FXML private Label labelDacSense7;
-    @FXML private Label labelDacSense8;
-    @FXML private Label labelDacSense9;
-    @FXML private Label labelDacSense10;
-    @FXML private Label labelDacSense11;
-    @FXML private Label labelDacSense12;
-    @FXML private Label labelDacSense13;
-    @FXML private Label labelDacSense14;
-    @FXML private Label labelDacSense15;
-    @FXML private Label labelDacSense16;
-    @FXML private Label labelDacSense17;
-    @FXML private Label labelDacSense18;
-    
+    @FXML
+    private Label labelDacSense1;
+    @FXML
+    private Label labelDacSense2;
+    @FXML
+    private Label labelDacSense3;
+    @FXML
+    private Label labelDacSense4;
+    @FXML
+    private Label labelDacSense5;
+    @FXML
+    private Label labelDacSense6;
+    @FXML
+    private Label labelDacSense7;
+    @FXML
+    private Label labelDacSense8;
+    @FXML
+    private Label labelDacSense9;
+    @FXML
+    private Label labelDacSense10;
+    @FXML
+    private Label labelDacSense11;
+    @FXML
+    private Label labelDacSense12;
+    @FXML
+    private Label labelDacSense13;
+    @FXML
+    private Label labelDacSense14;
+    @FXML
+    private Label labelDacSense15;
+    @FXML
+    private Label labelDacSense16;
+    @FXML
+    private Label labelDacSense17;
+    @FXML
+    private Label labelDacSense18;
+
     private void initVars() {
 
         System.out.print("Initializing ... \n");
@@ -205,13 +229,13 @@ public class FXMLDocumentController implements Initializable {
     private void handleSenseDACButtonAction(ActionEvent event) {
 
         for (int i = 0; i < __N_DACS; i++) {
-            m_SpidrDaq.setSenseDac(__DEVICEID, i+1);
+            m_SpidrDaq.setSenseDac(__DEVICEID, i + 1);
             int sensedVal = m_SpidrDaq.getAdc(__DEVICEID, 10); // second par is nSampligns
             // ACD is 12 bits and voltage reference is 1.5
             // Granularity is (12bits := 8191 steps) 0.000183127823220608 V
-            double sensedValV = sensedVal * 0.000183127823220608;
-            String formattedSense = String.format("%.3fV", sensedValV );
-            labelDacSenseList.get(i).setText( formattedSense );
+            double sensedValV = sensedVal * __V_PER_STEP;
+            String formattedSense = String.format("%.3fV", sensedValV);
+            labelDacSenseList.get(i).setText(formattedSense);
         }
 
     }
@@ -281,10 +305,54 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    @FXML
+    private void handleDACScanButtonAction(ActionEvent event) {
+
+        System.out.println("hola");
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("testdata");
+
+        int dacCode = 1;
+        m_SpidrDaq.setSenseDac(__DEVICEID, dacCode);
+        double sensedVal;
+        int max = m_SpidrDaq.dacMax(dacCode);
+        int step = 5;
+
+        // Save current dac value
+        int dacsave = m_SpidrDaq.getDac(__DEVICEID, dacCode);
+        
+                
+        for (int i = 0; i < max; i += 5) {
+            
+            // set dac
+            m_SpidrDaq.setDac(__DEVICEID, dacCode, i);
+            // Actualize slider and text box
+            sliderDacList.get(0).setValue( i );
+            textDacList.get(0).setText(String.valueOf(i));
+            // Sense dac
+            sensedVal = m_SpidrDaq.getAdc(__DEVICEID, 10); // second par is nSampligns     
+            // to volts
+            sensedVal = sensedVal * __V_PER_STEP;
+            series1.getData().add(new XYChart.Data(i, sensedVal));
+
+        }
+
+        // Reset to original dac value
+        m_SpidrDaq.setDac(__DEVICEID, dacCode, dacsave);
+        // Actualize slider and text box
+        sliderDacList.get(0).setValue( dacsave );
+        textDacList.get(0).setText(String.valueOf( dacsave ));
+        
+        // Fill the Chart
+        dacsLineChart.getData().addAll(series1);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // Setup the handlers
+        // Setup dac control
         setupDacControl();
 
     }
@@ -292,7 +360,7 @@ public class FXMLDocumentController implements Initializable {
     public void startUpActions() {
 
         // Fill DACs with startup values
-        initDacControl();        
+        initDacControl();
 
     }
 
@@ -422,7 +490,7 @@ public class FXMLDocumentController implements Initializable {
         labelDacSenseList.add(labelDacSense16);
         labelDacSenseList.add(labelDacSense17);
         labelDacSenseList.add(labelDacSense18);
-        
+
         // Labels
         for (int i = 0; i < __N_DACS; i++) {
             labelDacList.get(i).setText(m_SpidrDaq.dacName(i + 1));
@@ -430,7 +498,11 @@ public class FXMLDocumentController implements Initializable {
 
         // DACs chart
         dacsLineChart.setTitle("DAC scan");
-        
+        dacsLineChart.getXAxis().setAutoRanging(true);
+        dacsLineChart.getXAxis().setLabel("DAC value");
+        dacsLineChart.getYAxis().setAutoRanging(true);
+        dacsLineChart.getYAxis().setLabel("Volts");
+
     }
 
     public boolean DacStringValid(String s, Slider sl) {

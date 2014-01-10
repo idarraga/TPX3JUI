@@ -48,34 +48,17 @@
                       <children>
                         <GridPane GridPane.columnIndex="0" GridPane.rowIndex="1">
                           <children>
-                            <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0">
-                              <children>
-                                <LineChart id="LineChart" fx:id="dacsLineChart" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                  <xAxis>
-                                    <CategoryAxis side="BOTTOM" />
-                                  </xAxis>
-                                  <yAxis>
-                                    <NumberAxis side="LEFT" />
-                                  </yAxis>
-                                </LineChart>
-                                <Button mnemonicParsing="false" text="DAC scan" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                              </children>
-                              <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.0" minWidth="10.0" prefWidth="295.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="91.0" />
-                              </columnConstraints>
-                              <rowConstraints>
-                                <RowConstraints maxHeight="171.0" minHeight="10.0" prefHeight="171.0" vgrow="SOMETIMES" />
-                              </rowConstraints>
-                            </GridPane>
                             <GridPane prefHeight="177.0" prefWidth="386.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                               <children>
-                                <Button fx:id="senseDACButton" mnemonicParsing="false" onAction="#handleSenseDACButtonAction" text="Sense" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <Button fx:id="senseDACButton" mnemonicParsing="false" onAction="#handleSenseDACButtonAction" text="Sense" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <ProgressIndicator progress="0.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                <Button mnemonicParsing="false" onAction="#handleDACScanButtonAction" text="DAC scan" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <ProgressIndicator progress="0.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                               </children>
                               <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="218.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="90.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="78.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="114.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="54.0" />
                               </columnConstraints>
                               <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -86,6 +69,14 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               </rowConstraints>
                             </GridPane>
+                            <LineChart fx:id="dacsLineChart" prefHeight="176.9998779296875" prefWidth="295.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                              <xAxis>
+                                <NumberAxis side="BOTTOM" />
+                              </xAxis>
+                              <yAxis>
+                                <NumberAxis side="LEFT" />
+                              </yAxis>
+                            </LineChart>
                           </children>
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -110,17 +101,17 @@
                                 <Slider fx:id="sliderDac8" GridPane.columnIndex="0" GridPane.rowIndex="7" />
                                 <TextField fx:id="textDac1" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
                                   <GridPane.margin>
-                                    <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" fx:id="x2" />
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
                                   </GridPane.margin>
                                 </TextField>
-                                <TextField fx:id="textDac2" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac3" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac4" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac5" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac6" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac7" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac8" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac9" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac2" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac3" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac4" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac5" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac6" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac7" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac8" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac9" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
                                 <Label fx:id="labelDac1" text="DAC1" GridPane.columnIndex="2" GridPane.rowIndex="0">
                                   <GridPane.margin>
                                     <Insets left="1.0" right="1.0" fx:id="x3" />
@@ -128,7 +119,7 @@
                                 </Label>
                                 <Label id="labelDac1" fx:id="labelDac2" text="DAC2" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                   <GridPane.margin>
-                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                    <Insets left="1.0" right="1.0" fx:id="x4" />
                                   </GridPane.margin>
                                 </Label>
                                 <Label id="labelDac1" fx:id="labelDac3" text="DAC3" GridPane.columnIndex="2" GridPane.rowIndex="2">
@@ -171,14 +162,46 @@
                                     <Insets left="1.0" right="1.0" fx:id="x3" />
                                   </GridPane.margin>
                                 </Label>
-                                <Label id="labelDac1" fx:id="labelDacSense2" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="1" />
-                                <Label id="labelDac1" fx:id="labelDacSense3" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="2" />
-                                <Label id="labelDac1" fx:id="labelDacSense4" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="3" />
-                                <Label id="labelDac1" fx:id="labelDacSense5" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="4" />
-                                <Label id="labelDac1" fx:id="labelDacSense6" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="5" />
-                                <Label id="labelDac1" fx:id="labelDacSense7" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="6" />
-                                <Label id="labelDac1" fx:id="labelDacSense8" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="7" />
-                                <Label id="labelDac1" fx:id="labelDacSense9" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="8" />
+                                <Label id="labelDac1" fx:id="labelDacSense2" text="" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense3" text="" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense4" text="" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense5" text="" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense6" text="" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense7" text="" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense8" text="" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense9" text="" GridPane.columnIndex="3" GridPane.rowIndex="8">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
                               </children>
                               <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="128.0" />
@@ -200,15 +223,15 @@
                             </GridPane>
                             <GridPane prefHeight="191.0001220703125" prefWidth="385.9999000000025" GridPane.columnIndex="1" GridPane.rowIndex="0">
                               <children>
-                                <TextField fx:id="textDac10" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac11" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac12" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac13" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac14" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac15" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac16" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac17" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-                                <TextField fx:id="textDac18" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="42.9998779296875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x2" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac10" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac11" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac12" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac13" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac14" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac15" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac16" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac17" alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                                <TextField fx:id="textDac18" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="42.9998779296875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.margin="$x3" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
                                 <Slider fx:id="sliderDac10" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                 <Slider fx:id="sliderDac11" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                                 <Slider fx:id="sliderDac12" GridPane.columnIndex="0" GridPane.rowIndex="2" />
@@ -263,15 +286,51 @@
                                     <Insets left="1.0" right="1.0" fx:id="x3" />
                                   </GridPane.margin>
                                 </Label>
-                                <Label id="labelDac1" fx:id="labelDacSense10" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="0" />
-                                <Label id="labelDac1" fx:id="labelDacSense11" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="1" />
-                                <Label id="labelDac1" fx:id="labelDacSense12" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="2" />
-                                <Label id="labelDac1" fx:id="labelDacSense13" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="3" />
-                                <Label id="labelDac1" fx:id="labelDacSense14" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="4" />
-                                <Label id="labelDac1" fx:id="labelDacSense15" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="5" />
-                                <Label id="labelDac1" fx:id="labelDacSense16" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="6" />
-                                <Label id="labelDac1" fx:id="labelDacSense17" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="7" />
-                                <Label id="labelDac1" fx:id="labelDacSense18" text="" GridPane.columnIndex="3" GridPane.margin="$x3" GridPane.rowIndex="8" />
+                                <Label id="labelDac1" fx:id="labelDacSense10" text="" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense11" text="" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense12" text="" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense13" text="" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense14" text="" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense15" text="" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense16" text="" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense17" text="" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
+                                <Label id="labelDac1" fx:id="labelDacSense18" text="" GridPane.columnIndex="3" GridPane.rowIndex="8">
+                                  <GridPane.margin>
+                                    <Insets left="1.0" right="1.0" fx:id="x3" />
+                                  </GridPane.margin>
+                                </Label>
                               </children>
                               <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="128.0" />
@@ -305,8 +364,8 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       </columnConstraints>
                       <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="189.0" minHeight="10.0" prefHeight="173.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="229.0" minHeight="10.0" prefHeight="209.0" vgrow="SOMETIMES" />
                       </rowConstraints>
                     </GridPane>
                   </children>
