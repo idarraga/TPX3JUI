@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +28,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+//import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
@@ -34,6 +41,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+//import sun.nio.ch.DefaultAsynchronousChannelProvider;
 //import sun.awt.RepaintArea;
 
 /**
@@ -55,14 +63,25 @@ public class FXMLDocumentController implements Initializable {
     private Button senseDACButton;
 
     @FXML
+    private Button DACScanButton;
+
+    @FXML
+    private ProgressIndicator DACScanProgressIndicator;
+
+    @FXML
     private LineChart dacsLineChart;
+
+    Task worker;
+    private List<XYChart.Series> seriesList = new ArrayList<XYChart.Series>();
+    XYChart.Series seriesDAC1 = new XYChart.Series();
 
     // Constants
     private final int __N_DACS = 18;
+    private final int __N_DACSCAN_STEP_MAGICNUMBER = 40;
     private final int __DEVICEID = 0;
     // Ref = 1.5V. DAC Granularity is (12bits := 8191 steps) 0.000183127823220608V
     private final double __V_PER_STEP = 0.000183127823220608;
-    
+
     // List of sliders
     private List<Slider> sliderDacList = new ArrayList<Slider>();
     @FXML
@@ -225,8 +244,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void handleSenseDACButtonAction(ActionEvent event) {
+    private void senseDAC() {
 
         for (int i = 0; i < __N_DACS; i++) {
             m_SpidrDaq.setSenseDac(__DEVICEID, i + 1);
@@ -237,13 +255,13 @@ public class FXMLDocumentController implements Initializable {
             String formattedSense = String.format("%.3fV", sensedValV);
             labelDacSenseList.get(i).setText(formattedSense);
         }
-
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        //System.out.println("You clicked me!");
-        statusLabel.setText("Link status: Connected");
+    private void handleSenseDACButtonAction(ActionEvent event) {
+
+        senseDAC();
+
     }
 
     @FXML
@@ -305,47 +323,97 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    // create a service.
+    final Service DACDataGenerator = new Service<ObservableList<XYChart.Series>>() {
+
+        @Override
+        protected Task createTask() {
+
+            return new Task<ObservableList<XYChart.Series>>() {
+                @Override
+                protected ObservableList<XYChart.Series> call() throws InterruptedException {
+
+                    double sensedVal;
+                    int max;
+                    int dacsave;
+                    int step = 0;
+                    int totalIterations = 0;
+                    // Calculate first the total number of iterations
+                    for (int dacCode = 1; dacCode <= __N_DACS; dacCode++) {
+                        max = m_SpidrDaq.dacMax(dacCode);
+                        step = max / __N_DACSCAN_STEP_MAGICNUMBER;
+                        if (step < 1) {
+                            step = 1;
+                        }
+                        totalIterations += max / step;
+                    }
+
+                    ObservableList<XYChart.Series> allSeries = FXCollections.observableArrayList();
+                    int prog_cntr = 1;
+                    for (int dacCode = 1; dacCode <= __N_DACS - 1; dacCode++) {
+
+                        // New series
+                        XYChart.Series series1 = new XYChart.Series();
+                        series1.setName(m_SpidrDaq.dacName(dacCode));
+
+                        m_SpidrDaq.setSenseDac(__DEVICEID, dacCode);
+                        // Save current dac value
+                        dacsave = m_SpidrDaq.getDac(__DEVICEID, dacCode);
+                        max = m_SpidrDaq.dacMax(dacCode);
+                        step = max / __N_DACSCAN_STEP_MAGICNUMBER;
+                        if (step < 1) {
+                            step = 1;
+                        }
+
+                        for (int i = 0; i < max; i += step) {
+
+                            updateProgress(prog_cntr, totalIterations);
+                            prog_cntr += 1;
+
+                            // set dac
+                            m_SpidrDaq.setDac(__DEVICEID, dacCode, i);
+                            // Actualize slider and text box
+                            sliderDacList.get(dacCode - 1).setValue(i);
+                            textDacList.get(dacCode - 1).setText(String.valueOf(i));
+                            // Sense dac
+                            sensedVal = m_SpidrDaq.getAdc(__DEVICEID, 10); // second par is nSampligns     
+                            // to volts
+                            sensedVal = sensedVal * __V_PER_STEP;
+                            series1.getData().add(new XYChart.Data(i, sensedVal));
+
+                        }
+
+                        // Reset to original dac value
+                        m_SpidrDaq.setDac(__DEVICEID, dacCode, dacsave);
+                        // Actualize slider and text box
+                        sliderDacList.get(dacCode - 1).setValue(dacsave);
+                        textDacList.get(dacCode - 1).setText(String.valueOf(dacsave));
+
+                        // Add Series
+                        allSeries.add(series1);
+
+                    }
+
+                    DACScanButton.setDisable(false);
+
+                    return allSeries;
+                }
+            };
+        }
+    };
+
     @FXML
     private void handleDACScanButtonAction(ActionEvent event) {
 
-        System.out.println("hola");
+        DACScanButton.setDisable(true);
+        dacsLineChart.dataProperty().bind(DACDataGenerator.valueProperty());
 
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("testdata");
+        if (!DACDataGenerator.isRunning()) {
 
-        int dacCode = 1;
-        m_SpidrDaq.setSenseDac(__DEVICEID, dacCode);
-        double sensedVal;
-        int max = m_SpidrDaq.dacMax(dacCode);
-        int step = 5;
-
-        // Save current dac value
-        int dacsave = m_SpidrDaq.getDac(__DEVICEID, dacCode);
-        
-                
-        for (int i = 0; i < max; i += 5) {
-            
-            // set dac
-            m_SpidrDaq.setDac(__DEVICEID, dacCode, i);
-            // Actualize slider and text box
-            sliderDacList.get(0).setValue( i );
-            textDacList.get(0).setText(String.valueOf(i));
-            // Sense dac
-            sensedVal = m_SpidrDaq.getAdc(__DEVICEID, 10); // second par is nSampligns     
-            // to volts
-            sensedVal = sensedVal * __V_PER_STEP;
-            series1.getData().add(new XYChart.Data(i, sensedVal));
+            DACDataGenerator.reset();
+            DACDataGenerator.start();
 
         }
-
-        // Reset to original dac value
-        m_SpidrDaq.setDac(__DEVICEID, dacCode, dacsave);
-        // Actualize slider and text box
-        sliderDacList.get(0).setValue( dacsave );
-        textDacList.get(0).setText(String.valueOf( dacsave ));
-        
-        // Fill the Chart
-        dacsLineChart.getData().addAll(series1);
 
     }
 
@@ -354,6 +422,47 @@ public class FXMLDocumentController implements Initializable {
 
         // Setup dac control
         setupDacControl();
+
+        // Decide what to do un the different states of the DACDataGenerator Service
+        DACDataGenerator.stateProperty().addListener(new ChangeListener<Worker.State>() {
+            @Override
+            public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State oldState,
+                    Worker.State newState
+            ) {
+                switch (newState) {
+                    case SCHEDULED:
+                        acqInfoLabel.setVisible(false);
+                        DACScanProgressIndicator.progressProperty().bind(DACDataGenerator.progressProperty());  // workaround, we should be able to permanently bind to the progress, but unless we do this sometimes the progress does not always reach the end.
+                        break;
+                    case READY:
+                    case RUNNING:
+                        acqInfoLabel.setVisible(true);
+                        acqInfoLabel.setText("Running DAC Scan ...");
+                        break;
+                    case SUCCEEDED:
+                        acqInfoLabel.setVisible(true);
+                        acqInfoLabel.setText("DAC Scan done.");
+                        DACScanProgressIndicator.progressProperty().unbind();
+                        DACScanProgressIndicator.setProgress(1);  // workaround, we should be able to permanently bind to the progress, but unless we do this sometimes the progress does not always reach the end. (even this workaround didn't work, so I have no idea about this...)
+
+                        DACScanButton.setDisable(true);
+                        dacsLineChart.dataProperty().bind(DACDataGenerator.valueProperty());
+
+                        //if (!DACDataGenerator.isRunning()) {
+                        //    DACDataGenerator.reset();
+                        //    DACDataGenerator.start();
+                        //}
+
+                        break;
+                    case CANCELLED:
+                    case FAILED:
+                        acqInfoLabel.setVisible(true);
+                        acqInfoLabel.setText("Error running DAC Scan.");
+                        break;
+                }
+            }
+        }
+        );
 
     }
 
@@ -379,6 +488,8 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("[" + String.valueOf(i) + "] max = " + String.valueOf(m_SpidrDaq.dacMax(dacCode)));
             sliderDacList.get(i).setMax(m_SpidrDaq.dacMax(dacCode));
         }
+
+        senseDAC();
 
     }
 
@@ -410,7 +521,38 @@ public class FXMLDocumentController implements Initializable {
                         // Set the Dac
                         m_SpidrDaq.setDac(__DEVICEID, 1, val);
                     }
-                    System.out.println(String.valueOf(text));
+                    System.out.println(m_SpidrDaq.dacName(1) + ": " + String.valueOf(text));
+                }
+            }
+        });
+
+        // While Dragging change the value but only set DACs when releasing the mouse click
+        sliderDac2.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent m) {
+                textDac2.setText(String.valueOf((int) sliderDac2.getValue()));
+            }
+        });
+        sliderDac2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent m) {
+                m_SpidrDaq.setDac(__DEVICEID, 2, (int) sliderDac2.getValue());
+            }
+        });
+        textDac2.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                if (t.getCode() == KeyCode.ENTER) {
+                    // Extract the value from TextField
+                    String text = textDac2.getText();
+                    if (DacStringValid(text, sliderDac2)) {
+                        int val = Integer.parseInt(text);
+                        // move the slider first
+                        sliderDac2.setValue(val);
+                        // Set the Dac
+                        m_SpidrDaq.setDac(__DEVICEID, 2, val);
+                    }
+                    System.out.println(m_SpidrDaq.dacName(2) + ": " + String.valueOf(text));
                 }
             }
         });
@@ -502,6 +644,8 @@ public class FXMLDocumentController implements Initializable {
         dacsLineChart.getXAxis().setLabel("DAC value");
         dacsLineChart.getYAxis().setAutoRanging(true);
         dacsLineChart.getYAxis().setLabel("Volts");
+        dacsLineChart.setLegendVisible(true);
+        //dacsLineChart.
 
     }
 

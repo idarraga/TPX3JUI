@@ -41,6 +41,8 @@ public class SpidrDaqJ {
    
     
     // Native and exact as defined in the TPX3 lib
+    
+    // Configuration: device
     public native void     resetDevice      ( int  dev_nr );
     public native void     resetDevices     ( );
     public native int      getDeviceId      ( int  dev_nr );
@@ -52,6 +54,18 @@ public class SpidrDaqJ {
     public native String   dacName          ( int  dac_code );
     public native int      dacMax           ( int  dac_code );
   
+    /*
+    // Configuration: device test pulses
+  bool        getTpPeriodPhase ( int  dev_nr, int *period, int *phase );
+  bool        setTpPeriodPhase ( int  dev_nr, int  period, int  phase );
+  bool        getTpNumber      ( int  dev_nr, int *number );
+  bool        setTpNumber      ( int  dev_nr, int  number );
+  bool        setCtprBit       ( int  column, int val = 1 );
+  bool        setCtprBits      ( int  val = 1 );
+  bool        setCtpr          ( int  dev_nr );
+  bool        getCtpr          ( int  dev_nr, unsigned char **ctpr );
+*/
+    
     // Data-acquisition
     public native boolean sequentialReadout ( int tokens );
     public native boolean datadrivenReadout ();
