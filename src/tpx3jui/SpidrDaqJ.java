@@ -54,17 +54,26 @@ public class SpidrDaqJ {
     public native String   dacName          ( int  dac_code );
     public native int      dacMax           ( int  dac_code );
   
-    /*
+    
     // Configuration: device test pulses
-  bool        getTpPeriodPhase ( int  dev_nr, int *period, int *phase );
-  bool        setTpPeriodPhase ( int  dev_nr, int  period, int  phase );
-  bool        getTpNumber      ( int  dev_nr, int *number );
-  bool        setTpNumber      ( int  dev_nr, int  number );
-  bool        setCtprBit       ( int  column, int val = 1 );
-  bool        setCtprBits      ( int  val = 1 );
-  bool        setCtpr          ( int  dev_nr );
-  bool        getCtpr          ( int  dev_nr, unsigned char **ctpr );
-*/
+    public native boolean  getTpPeriodPhase ( int  dev_nr, int [] period__phase );      // ( int  dev_nr, int *period, int *phase );
+    public native boolean  setTpPeriodPhase ( int  dev_nr, int  period, int  phase );
+    public native boolean  getTpNumber      ( int  dev_nr, int [] number );             // ( int  dev_nr, int *number );
+    public native boolean  setTpNumber      ( int  dev_nr, int  number );
+    public native boolean  setCtprBit       ( int  column, int val );                   // ( int  column, int val = 1 );
+    public native boolean  setCtprBits      ( int  val );                               // ( int  val = 1 );
+    public native boolean  setCtpr          ( int  dev_nr );                            // After setting all bits, send the register
+    public native boolean  getCtpr          ( int  dev_nr, char [] ctpr );              // ( int  dev_nr, unsigned char **ctpr );
+    
+    // Configuration: device pixels
+    public native void     resetPixelConfig ();
+    public native boolean  setPixelThreshold ( int  x, int  y, int  threshold );
+    public native boolean  setPixelTestEna   ( int  x, int y, boolean b );          // ( int  x = ALL_PIXELS, int y = ALL_PIXELS, bool b = true );
+    public native boolean  setPixelMask      ( int  x, int y, boolean b);           // ( int  x = ALL_PIXELS, int y = ALL_PIXELS, bool b = true );
+    public native boolean  setPixelConfig    ( int  dev_nr, int cols_per_packet );  // ( int  dev_nr, int cols_per_packet = 2 );
+    public native boolean  getPixelConfig    ( int  dev_nr );
+    public native boolean  resetPixels       ( int  dev_nr );
+    public native char []  pixelConfig       ();                                    // unsigned char *pixelConfig   ();
     
     // Data-acquisition
     public native boolean sequentialReadout ( int tokens );

@@ -114,6 +114,134 @@ JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_dacMax
 
 /*
  * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getTpPeriodPhase
+ * Signature: (I[I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getTpPeriodPhase
+  (JNIEnv *, jobject, jint, jintArray);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setTpPeriodPhase
+ * Signature: (III)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setTpPeriodPhase
+  (JNIEnv *, jobject, jint, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getTpNumber
+ * Signature: (I[I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getTpNumber
+  (JNIEnv *, jobject, jint, jintArray);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setTpNumber
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setTpNumber
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setCtprBit
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setCtprBit
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setCtprBits
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setCtprBits
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setCtpr
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setCtpr
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getCtpr
+ * Signature: (I[C)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getCtpr
+  (JNIEnv *, jobject, jint, jcharArray);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    resetPixelConfig
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_tpx3jui_SpidrDaqJ_resetPixelConfig
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setPixelThreshold
+ * Signature: (III)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setPixelThreshold
+  (JNIEnv *, jobject, jint, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setPixelTestEna
+ * Signature: (IIZ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setPixelTestEna
+  (JNIEnv *, jobject, jint, jint, jboolean);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setPixelMask
+ * Signature: (IIZ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setPixelMask
+  (JNIEnv *, jobject, jint, jint, jboolean);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    setPixelConfig
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_setPixelConfig
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    getPixelConfig
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_getPixelConfig
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    resetPixels
+ * Signature: (I)Z
+ */
+JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_resetPixels
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
+ * Method:    pixelConfig
+ * Signature: ()[C
+ */
+JNIEXPORT jcharArray JNICALL Java_tpx3jui_SpidrDaqJ_pixelConfig
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     tpx3jui_SpidrDaqJ
  * Method:    sequentialReadout
  * Signature: (I)Z
  */
@@ -139,7 +267,7 @@ JNIEXPORT jboolean JNICALL Java_tpx3jui_SpidrDaqJ_pauseReadout
 /*
  * Class:     tpx3jui_SpidrDaqJ
  * Method:    getAdc
- * Signature: (III)Z
+ * Signature: (II)I
  */
 JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getAdc
   (JNIEnv *, jobject, jint, jint);
@@ -147,7 +275,7 @@ JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getAdc
 /*
  * Class:     tpx3jui_SpidrDaqJ
  * Method:    getRemoteTemp
- * Signature: (I)Z
+ * Signature: ()I
  */
 JNIEXPORT jint JNICALL Java_tpx3jui_SpidrDaqJ_getRemoteTemp
   (JNIEnv *, jobject);

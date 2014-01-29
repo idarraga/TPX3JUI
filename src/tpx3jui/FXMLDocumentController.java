@@ -260,8 +260,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleSenseDACButtonAction(ActionEvent event) {
 
+        
+        m_SpidrDaq.setTpPeriodPhase(0, 1, 2);
+        
         senseDAC();
 
+        int[] period__phase_2pars = new int[2];
+        m_SpidrDaq.getTpPeriodPhase(0, period__phase_2pars);
+        System.out.println("data1 = " + String.valueOf( period__phase_2pars[0] ) + ", data2 = " + String.valueOf( period__phase_2pars[1] ) );
+        
     }
 
     @FXML
